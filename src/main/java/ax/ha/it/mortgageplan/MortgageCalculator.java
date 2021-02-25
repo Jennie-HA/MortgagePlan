@@ -56,8 +56,7 @@ public class MortgageCalculator {
             String mp = String.format("%.02f", loans.get(i).getMonthly_payment());
             System.out.print("Prospect " + (i+1) + " : " + loans.get(i).getCustomer() + " wants to borrow " +
                     loans.get(i).getTotal_loan() + " € for a period of " + loans.get(i).getLoan_years()
-                    + " years and pay " + mp + " € each month \n");
-            
+                    + " years and pay " + mp + " € each month \n"); 
         }
         
     }
@@ -96,7 +95,6 @@ public class MortgageCalculator {
                         loan.setMonthly_payment(monthly_payment);
                         
                         loans.add(loan);
-                        
                        
                     }
                     //Stop reading if line is empty
