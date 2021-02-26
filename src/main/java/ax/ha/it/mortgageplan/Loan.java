@@ -41,7 +41,6 @@ public class Loan {
     /**
      * Getters
      */
-    
     public String getCustomer() {
         return customer;
     }
