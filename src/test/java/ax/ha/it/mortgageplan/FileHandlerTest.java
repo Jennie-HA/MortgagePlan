@@ -5,7 +5,6 @@
  */
 package ax.ha.it.mortgageplan;
 
-import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,28 +43,19 @@ public class FileHandlerTest {
     @Test
     public void testClean_strings() {
         System.out.println("clean_strings");
-        String line = "";
+        String line1 = "\"Jennie,Eriksson\"";
+        String line2 = "Jennie Eriksson";
+        String line3 = "Jennie";
         FileHandler instance = new FileHandler();
-        String expResult = "";
-        String result = instance.clean_strings(line);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expResult12 = "Jennie Eriksson";
+        String expResult3 = "Jennie";
+        String result1 = instance.clean_strings(line1);
+        String result2 = instance.clean_strings(line2);
+        String result3 = instance.clean_strings(line3);
+        assertEquals(expResult12, result1);
+        assertEquals(expResult12, result2);
+        assertEquals(expResult3, result3);
     }
 
-    /**
-     * Test of read_data method, of class FileHandler.
-     */
-    @Test
-    public void testRead_data() {
-        System.out.println("read_data");
-        String filename = "";
-        FileHandler instance = new FileHandler();
-        ArrayList expResult = null;
-        ArrayList result = instance.read_data(filename);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
     
 }

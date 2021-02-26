@@ -22,7 +22,7 @@ public class MortgageCalculator {
      * @param exponent
      * @return result 
      */
-    public double calc_pow(double base, double exponent) {
+    public double calc_pow(double base, int exponent) {
         double result = 1;
         for (;exponent > 0; --exponent)
         {

@@ -93,8 +93,8 @@ public class LoanTest {
     public void testGetLoan_years() {
         System.out.println("getLoan_years");
         Loan instance = new Loan("Jennie", 3000, 5, 2);
-        int expResult = 2;
-        int result = instance.getLoan_years();
+        double expResult = 2;
+        double result = instance.getLoan_years();
         assertEquals(expResult, result);
     }
 
