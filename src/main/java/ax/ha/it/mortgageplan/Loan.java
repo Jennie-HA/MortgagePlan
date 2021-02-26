@@ -6,7 +6,7 @@
 package ax.ha.it.mortgageplan;
 
 /**
- *
+ * This class contains loan data for a customer
  * @author jennie
  */
 public class Loan {
@@ -16,7 +16,13 @@ public class Loan {
     private int loan_years;
     private double monthly_payment;
     
-
+    /**
+     * Constructor
+     * @param customer
+     * @param total_loan
+     * @param yearly_interest
+     * @param loan_years
+     */
     public Loan(String customer, double total_loan, double yearly_interest, int loan_years) {
         this.customer = customer;
         this.total_loan = total_loan;
@@ -24,16 +30,22 @@ public class Loan {
         this.loan_years = loan_years;
     }
     
-
+    /**
+     * Setter for monthly payment
+     * @param monthly_payment
+     */
     public void setMonthly_payment(double monthly_payment) {
         this.monthly_payment = monthly_payment;
     }
    
-
+    /**
+     * Getters
+     */
+    
     public String getCustomer() {
         return customer;
     }
-
+    
     public double getTotal_loan() {
         return total_loan;
     }

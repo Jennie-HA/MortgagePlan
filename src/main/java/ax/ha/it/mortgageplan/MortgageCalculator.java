@@ -5,24 +5,23 @@
  */
 package ax.ha.it.mortgageplan;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 
 /**
- *
+ * This class calculates and print loan data
+ * 
  * @author jennie
  */
 public class MortgageCalculator {
-
-//Readme of how to start the application
-//Unit test for testing application logic
-
     
+    /**
+     * This method calculates the power of a number
+     * 
+     * @param base
+     * @param exponent
+     * @return result 
+     */
     public double calc_pow(double base, double exponent) {
         double result = 1;
         for (;exponent > 0; --exponent)
@@ -32,6 +31,12 @@ public class MortgageCalculator {
         return result;
     }
     
+    /**
+     * This method calculates the fixed monthly payment of a loan
+     * 
+     * @param loan
+     * @return monthly payment
+     */
     public double calc_monthly_payment(Loan loan) {
         //Interest on monthly basis
         double mi = loan.getYearly_interest()/(100 * 12);
@@ -47,7 +52,11 @@ public class MortgageCalculator {
         
     }
     
-    
+    /**
+     * This method prints out loan data for each customer
+     * 
+     * @param loans
+     */
     public void print_loan_data(ArrayList<Loan> loans) {
         for (int i = 0; i < loans.size(); i++) {
             String mp = String.format("%.02f", loans.get(i).getMonthly_payment());
@@ -63,21 +72,26 @@ public class MortgageCalculator {
         ArrayList <Loan> loans = new ArrayList<>();
         FileHandler fh = new FileHandler();
         
-        String filename = "prospects.txt";
+        //Reads text file to a list
+        final String filename = "prospects.txt";
         ArrayList<String[]> data_list = fh.read_data(filename);
         
+        //Saves data from file to Loan objects
         for (String[] data : data_list) {
             String customer = data[0];  
             double total_loan = Double.parseDouble(data[1]);                    
             double interest = Double.parseDouble(data[2]);
             int years = Integer.parseInt(data[3]);    
-
             Loan loan = new Loan(customer, total_loan, interest, years);
+            
+            //Calculates fixed monthly payment
             double monthly_payment = mc.calc_monthly_payment(loan);
             loan.setMonthly_payment(monthly_payment);
-
+            
+            //Adds all loan objects to a list
             loans.add(loan);
         }
+        //Prints loan data for each customer
         mc.print_loan_data(loans);
     
     }
