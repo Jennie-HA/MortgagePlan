@@ -49,10 +49,5 @@ public class Loan {
     public double getMonthly_payment() {
         return monthly_payment;
     }
-    
-    
-    
-    
-    
-    
+      
 }

@@ -23,6 +23,16 @@ public class FileHandler {
 //        this.filename = filename;
 //    }
     
+    public String clean_strings(String line) {
+        //
+        String reg = "\"(.+),(.+)\"";
+        String replacement = "$1 $2";
+        
+        if (Pattern.compile(reg).matcher(line).find()) {
+            line = line.replaceAll(reg, replacement); 
+        }
+        return line;
+    }
     
     public ArrayList<String[]> read_data(String filename){
         BufferedReader br = null;
@@ -38,20 +48,17 @@ public class FileHandler {
                 sb.append(line);
                 sb.append(System.lineSeparator());
                 line = br.readLine();
-                String reg = "\"(.+),(.+)\"";
-                String replacement = "$1 $2";
-                    if(! line.isEmpty()) {
-                        if (Pattern.compile(reg).matcher(line).find()) {
-                            line = line.replaceAll(reg, replacement); 
-                        }
-                        String[] data = line.split(",");
-                        data_strings.add(data);
-                       
-                    }
-                    //Stop reading if line is empty
-                    else {
-                        break;
-                    }   
+                if(! line.isEmpty()) {
+                    
+                    line = this.clean_strings(line);
+                    String[] data = line.split(",");
+                    data_strings.add(data);
+
+                }
+                //Stop reading if line is empty
+                else {
+                    break;
+                }   
             }
         } catch(FileNotFoundException ex){
             ex.printStackTrace();
