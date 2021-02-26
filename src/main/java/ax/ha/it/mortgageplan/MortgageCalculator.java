@@ -10,8 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 
@@ -21,14 +19,13 @@ import java.util.regex.Pattern;
  */
 public class MortgageCalculator {
 
-//A build tool used to compile, build, test and run project
 //Readme of how to start the application
 //Unit test for testing application logic
 
     
     public double calc_pow(double base, double exponent) {
         double result = 1;
-        for (;exponent != 0; --exponent)
+        for (;exponent > 0; --exponent)
         {
             result *= base;
         }
@@ -50,8 +47,8 @@ public class MortgageCalculator {
         
     }
     
+    
     public void print_loan_data(ArrayList<Loan> loans) {
-        //Prospect 1: CustomerName wants to borrow X € for a period of Z years and pay E € each month
         for (int i = 0; i < loans.size(); i++) {
             String mp = String.format("%.02f", loans.get(i).getMonthly_payment());
             System.out.print("Prospect " + (i+1) + " : " + loans.get(i).getCustomer() + " wants to borrow " +
@@ -62,65 +59,26 @@ public class MortgageCalculator {
     }
     
     public static void main(String arg[]) {
-        
         MortgageCalculator mc = new MortgageCalculator();
         ArrayList <Loan> loans = new ArrayList<>();
+        FileHandler fh = new FileHandler();
         
-        BufferedReader br = null;
-       
-        try {
-            br = new BufferedReader(new FileReader("prospects.txt"));
+        String filename = "prospects.txt";
+        ArrayList<String[]> data_list = fh.read_data(filename);
         
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
+        for (String[] data : data_list) {
+            String customer = data[0];  
+            double total_loan = Double.parseDouble(data[1]);                    
+            double interest = Double.parseDouble(data[2]);
+            int years = Integer.parseInt(data[3]);    
 
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-                String reg = "\"(.+),(.+)\"";
-                String replacement = "$1 $2";
-                    if(! line.isEmpty()) {
-                        if (Pattern.compile(reg).matcher(line).find()) {
-                            line = line.replaceAll(reg, replacement); 
-                        }
-                        String[] array = line.split(",");
-                        String customer = array[0];  
-                        double total_loan = Double.parseDouble(array[1]);                    
-                        double interest = Double.parseDouble(array[2]);
-                        int years = Integer.parseInt(array[3]);    
-                        
-                        Loan loan = new Loan(customer, total_loan, interest, years);
-                        double monthly_payment = mc.calc_monthly_payment(loan);
-                        loan.setMonthly_payment(monthly_payment);
-                        
-                        loans.add(loan);
-                       
-                    }
-                    //Stop reading if line is empty
-                    else {
-                        break;
-                    }   
-            }
-            
-            mc.print_loan_data(loans);
-    
-        } catch(FileNotFoundException ex){
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if(br != null) {
-                try {
-                    br.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            
-        }
+            Loan loan = new Loan(customer, total_loan, interest, years);
+            double monthly_payment = mc.calc_monthly_payment(loan);
+            loan.setMonthly_payment(monthly_payment);
 
+            loans.add(loan);
+        }
+        mc.print_loan_data(loans);
     
     }
 
