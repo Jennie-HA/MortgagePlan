@@ -2,6 +2,7 @@ Description:
 Mortgageplan is a Java application built using Maven. This application reads customer data from a file and prints the calculated prospects for each customer.
 
 Run the application:
+- This project requires maven and a JDK to be installed
 - Make sure to be in the root directory
 - Run the command: mvn clean package. This will build the project and create a jar file
 - Run the command: java -cp target/MortgagePlan-1.0-SNAPSHOT.jar ax.ha.it.mortgageplan.MortgageCalculator
