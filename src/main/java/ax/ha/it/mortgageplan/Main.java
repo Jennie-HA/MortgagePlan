@@ -5,8 +5,8 @@
  */
 package ax.ha.it.mortgageplan;
 
+import java.io.IOException;
 import java.util.ArrayList;
-
 
 /**
  * This class prints calculated mortgage data for customers
@@ -14,49 +14,33 @@ import java.util.ArrayList;
  * @author jennie
  */
 public class Main {
-    /**
-     * This method prints out prospects for each customer
-     * 
-     * @param prospects
-     */
-    public static void print_prospects(ArrayList<MortgageCalculator> prospects) {
-        for (int i = 0; i < prospects.size(); i++) {
-            String mp = String.format("%.02f", prospects.get(i).getMonthly_payment());
-            System.out.print("Prospect " + (i+1) + " : " + prospects.get(i).getCustomer() + " wants to borrow " +
-                    prospects.get(i).getTotal_loan() + " € for a period of " + prospects.get(i).getLoan_years()
-                    + " years and pay " + mp + " € each month \n"); 
-        }
-        
-    }
-    
+
     public static void main(String arg[]) {
       
         FileHandler fh = new FileHandler();
         final String filename = "prospects.txt";
         //Reads text from file to a list
-        ArrayList<String[]> data_list = fh.read_data(filename);
-        ArrayList <MortgageCalculator> prospects = new ArrayList<>();
-        
-        //Saves data from file to MortgageCalculator objects
-        for (String[] data : data_list) {
-            String customer = data[0];  
-            double total_loan = Double.parseDouble(data[1]);                    
-            double interest = Double.parseDouble(data[2]);
-            int years = Integer.parseInt(data[3]);    
-            MortgageCalculator mc = new MortgageCalculator(customer, total_loan, interest, years);
+        ArrayList<String[]> data_list;
+        try {
+            data_list = fh.read_data(filename);
             
-            //Calculates fixed monthly payment
-            double monthly_payment = mc.calc_monthly_payment();
-            mc.setMonthly_payment(monthly_payment);
-            
-            //Adds all prospects to a list
-            prospects.add(mc);
-        }
-        //Prints loan data for each customer
-        print_prospects(prospects);
-    
-    }
+            //Saves data from file to MortgageCalculator objects
+            for (int i = 0; i < data_list.size(); i++) {
+                String[] data = data_list.get(i);
+                String name = data[0];  
+                double total_loan = Double.parseDouble(data[1]);                    
+                double interest = Double.parseDouble(data[2]);
+                int years = Integer.parseInt(data[3]);    
+                Customer customer = new Customer(name, total_loan, interest, years);
 
-  
-    
+                //Prints prospects for each customer
+                String monthly_payment = String.format("%.02f", customer.get_monthly_payment());
+                System.out.println("Prospect " + (i+1) + " : " + customer.getName() + " wants to borrow " +
+                        customer.getTotal_loan() + " € for a period of " + customer.getLoan_years()
+                        + " years and pay " + monthly_payment + " € each month");
+            }
+        } catch (IOException ex) {
+            System.out.println(filename + " not found or cannot be read");
+        }   
+    }
 }   

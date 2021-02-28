@@ -17,27 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author jennie
  */
 public class FileHandlerTest {
-    
-    public FileHandlerTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
-
-    /**
+     /**
      * Test of clean_strings method, of class FileHandler.
      */
     @Test

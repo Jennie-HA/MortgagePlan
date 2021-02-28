@@ -6,11 +6,9 @@
 package ax.ha.it.mortgageplan;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 /**
  * This class is responible for file management
@@ -32,11 +30,8 @@ public class FileHandler {
         String reg = "\"(.+),(.+)\"";
         //Regexpression that replaces strings to this format: name surname
         String replacement = "$1 $2";
+        line = line.replaceAll(reg, replacement);
         
-        //Reformatting strings that matches the regex
-        if (Pattern.compile(reg).matcher(line).find()) {
-            line = line.replaceAll(reg, replacement); 
-        }
         return line;
     }
     
@@ -44,52 +39,34 @@ public class FileHandler {
      * This method reads text from a file into a list
      * 
      * @param filename
-     * @return A list of String arrays
+     * @return A list of String arrays 
+     * @throws java.io.IOException 
      */
-    public ArrayList<String[]> read_data(String filename){
-        BufferedReader br = null;
+    public ArrayList<String[]> read_data(String filename) throws IOException{
+        //BufferedReader br = null;
         ArrayList<String[]> data_strings = new ArrayList<>();
         
-        try {
-            br = new BufferedReader(new FileReader(filename));
-        
-            StringBuilder sb = new StringBuilder();
+        //Try with resources -> file closes automatically
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            //Remove the first line
             String line = br.readLine();
-
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-                if(! line.isEmpty()) {
-                    //Reformatting strings if needed
+          
+            while ((line = br.readLine()) != null) {                
+                //Stop reading if line is empty
+                if(line.isEmpty()) {
+                    break;
+                }
+                else {
+                    //Reformatting strings 
                     line = this.clean_strings(line);
-                    //strings are separated by comma signs and added to an array
+
+                    //strings are separated by comma signs 
                     String[] data = line.split(",");
                     data_strings.add(data);
 
-                }
-                //Stop reading if line is empty
-                else {
-                    break;
                 }   
             }
-        } catch(FileNotFoundException ex){
-            System.out.println("File not found");
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if(br != null) {
-                try {
-                    br.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
+        } 
         return data_strings;
-
-        
     }
 }
