@@ -17,7 +17,7 @@ public class Main {
     /**
      * This method prints out prospects for each customer
      * 
-     * @param loans
+     * @param prospects
      */
     public static void print_prospects(ArrayList<MortgageCalculator> prospects) {
         for (int i = 0; i < prospects.size(); i++) {
